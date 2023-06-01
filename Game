@@ -1,0 +1,53 @@
+import random
+
+def generate_word():
+    """
+    Generates a random five-letter word from a list of words.
+    """
+    word_list = ['apple', 'beach', 'dream', 'fairy', 'grape', 'jumbo']
+    return random.choice(word_list)
+
+def check_guess(word, guess):
+    """
+    Compares the guessed word with the target word and provides feedback.
+    Returns a string representing the feedback.
+    """
+    feedback = ''
+    for i in range(len(guess)):
+        if guess[i] == word[i]:
+            feedback += 'B'  # Correct letter in the correct position
+        elif guess[i] in word:
+            feedback += 'W'  # Correct letter in the wrong position
+        else:
+            feedback += '-'  # Incorrect letter
+    return feedback
+
+def play_wordle():
+    """
+    Main game loop for Wordle.
+    """
+    word = generate_word()
+    attempts = 6
+    while attempts > 0:
+        print(f"Remaining attempts: {attempts}")
+        guess = input("Enter your guess (5 letters): ").lower()
+        
+        # Validate input
+        if len(guess) != 5 or not guess.isalpha():
+            print("Invalid guess! Please enter exactly 5 alphabetic letters.")
+            continue
+        
+        feedback = check_guess(word, guess)
+        print(f"Feedback: {feedback}")
+        
+        if feedback == 'B' * 5:
+            print("Congratulations! You guessed the word correctly.")
+            return
+        
+        attempts -= 1
+    
+    print(f"Game over! The word was {word}.")
+
+# Start the game
+print("Welcome to Wordle!")
+play_wordle()
